@@ -172,6 +172,10 @@
             return cache.get(key) || cache.set(key, document.querySelector(selector));
         }
 
+         /* create a striped background dynamically */
+         var stripesImg = new Image();
+         stripesImg.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAIVBMVEX////w8PDd7h7d7h7d7h7d7h7w8PDw8PDw8PDw8PDw8PAOi84XAAAAKUlEQVQImWNI71zAwMBQMYuBgY0BxExnADErGEDMTgYQE8hnAKtCZwIAlcMNSR9a1OEAAAAASUVORK5CYII=';
+
         /**
          * Canvas Manager
          */
@@ -271,13 +275,12 @@
                         var timelineHeadPosition = x + period.start * ratio;
 
                         if (isChildEvent(event)) {
-                            /* create a striped background dynamically */
-                            var img = new Image();
-                            img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAIVBMVEX////w8PDd7h7d7h7d7h7d7h7w8PDw8PDw8PDw8PDw8PAOi84XAAAAKUlEQVQImWNI71zAwMBQMYuBgY0BxExnADErGEDMTgYQE8hnAKtCZwIAlcMNSR9a1OEAAAAASUVORK5CYII=';
-                            var pattern = ctx.createPattern(img, 'repeat');
+                            if (stripesImg.complete) {
+                                var pattern = ctx.createPattern(stripesImg, 'repeat');
 
-                            ctx.fillStyle = pattern;
-                            ctx.fillRect(timelineHeadPosition, 0, (period.end - period.start) * ratio, canvasHeight);
+                                ctx.fillStyle = pattern;
+                                ctx.fillRect(timelineHeadPosition, 0, (period.end - period.start) * ratio, canvasHeight);
+                            }
                         } else if (isSectionEvent(event)) {
                             var timelineTailPosition = x + period.end * ratio;
 
